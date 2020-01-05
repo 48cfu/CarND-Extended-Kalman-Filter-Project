@@ -1,7 +1,7 @@
 # Brief summary of Result
 [//]: # (Image References)
 [image1]: ./data/RMSE_with_unknown_velocity.jpg "RMSE"
-[image2]: ./data/polar-cartesian-relations.png "Polar / Cartesian"
+[image2]: ./data/polar-cartesian-relations.PNG "Polar / Cartesian"
 
 - In the following figure we see the RMSE for each state, and it satisfies the rubric requirements ![alt text][image1]
 - Starting from the polar/cartesian relations, the initial sate was initialized upon reception of the first measurement ![alt text][image2]
