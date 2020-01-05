@@ -1,7 +1,17 @@
+# Brief summary of Result
+[//]: # (Image References)
+[image1]: ./data/RMSE_with_unknown_velocity.jpg "RMSE"
+[image2]: ./data/polar-cartesian-relations.png "Polar / Cartesian"
+
+- In the following figure we see the RMSE for each state, and it satisfies the rubric requirements ![alt text][image1]
+- Starting from the polar/cartesian relations, the initial sate was initialized upon reception of the first measurement ![alt text][image2]
+- We adopted the normalization of the bearing component in the innovation to [-pi, pi] (`src/kalman_filter.cpp` lines 73-84)
+- The covariance of the initial velocities are chosen very high since we are not able to extract them from the measurement data (`src/FusionEKF.cpp` lines 87-88).
+
 # Extended Kalman Filter Project Starter Code
 Self-Driving Car Engineer Nanodegree Program
 
-In this project you will utilize a kalman filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower than the tolerance outlined in the project rubric. 
+In this project we use a kalman filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower than the tolerance outlined in the project rubric. 
 
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases).
 

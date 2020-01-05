@@ -78,12 +78,15 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       // TODO: Initialize state.
       ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
     }
+    
     // done initializing, no need to predict or update
     previous_timestamp_ = measurement_pack.timestamp_;
     int n = ekf_.x_.size();
-    float sigma = 0.002;
+    float sigma = 1;
     MatrixXd P_in = sigma * MatrixXd::Identity(n, n);
-    MatrixXd Q_in = sigma *MatrixXd::Identity(n, n);
+    P_in(2, 2) = 10000;
+    P_in(3, 3) = 10000;
+    MatrixXd Q_in = P_in;
     MatrixXd F_in = MatrixXd::Identity(n, n);
     
     ekf_.Init(ekf_.x_, P_in, F_in, H_laser_, R_laser_, Q_in);
@@ -102,8 +105,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
 
-  float noise_ax = 9;
-  float noise_ay = 9;
+  float noise_ax = 9.0;
+  float noise_ay = 9.0;
   // compute the time elapsed between the current and previous measurements
   // dt - expressed in seconds
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
@@ -119,10 +122,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // set the process covariance matrix Q
   ekf_.Q_ = MatrixXd(4, 4);
-  ekf_.Q_ <<  dt_4/4*noise_ax, 0, dt_3/2*noise_ax, 0,
-        0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
-        dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
-        0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
+  ekf_.Q_ <<  (dt_4/4.0)*noise_ax, 0, (dt_3/2.0)*noise_ax, 0,
+        0, (dt_4/4.0)*noise_ay, 0, (dt_3/2.0)*noise_ay,
+        (dt_3/2.0)*noise_ax, 0, (dt_2)*noise_ax, 0,
+        0, (dt_3/2.0)*noise_ay, 0, dt_2*noise_ay;
   cout << ekf_.Q_ << endl;      
   ekf_.Predict();
   /**
